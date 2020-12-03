@@ -1,0 +1,27 @@
+{
+  "name": "04-express",
+  "version": "1.0.0",
+  "description": "- MySQL CRUD review\r - Node & MySQL\r - Join queries",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node restaurant.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/QFults/04-Express.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/QFults/04-Express/issues"
+  },
+  "homepage": "https://github.com/QFults/04-Express#readme",
+  "dependencies": {
+    "console.table": "^0.10.0",
+    "dotenv": "^8.2.0",
+    "inquirer": "^7.3.3",
+    "mysql2": "^2.2.5"
+  }
+}
