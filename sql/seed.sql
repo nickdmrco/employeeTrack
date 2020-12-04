@@ -1,8 +1,14 @@
-USE users_db;
+USE employees_db;
 
-INSERT INTO users (name, email, age, address)
-VALUES ('John Doe', 'johndoe@gmail.com', 47, '123 Main St'), 
-('Jane Doe', 'janedoe@gmail.com', 47, '123 Main St'), 
-('Jack Doe', 'jckdoe@gmail.com', 47, '123 Main St'), 
-('James Doe', 'jamesdoe@gmail.com', 47, '123 Main St'), 
-('Jenny Doe', 'jennydoe@gmail.com', 47, '123 Main St');
+INSERT INTO department (name)
+VALUES ('Marketing'),
+('Sales')
+
+INSERT INTO roles (title, salary, department_id)
+VALUES ('Sales Lead', 10000, 2),
+('Marketing lead', 12312, 1)
+
+INSERT INTO employees (first_name, last_name, role_id, manager_id)
+VALUES ('John', 'Doe', 1, 2),
+('Jenny', 'doe', 1, NULL)
+
