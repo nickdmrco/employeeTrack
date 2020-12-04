@@ -18,6 +18,15 @@ const viewEmployees = () => {
     .catch(err => console.log(err))
 }
 
+const addDepartment = () => {
+  db.promise().query('SELECT * FROM department')
+    .then(([ rows ]) => {
+      const departmentArray = rows.map(row => ({ name: row.name, value: row.id }))
+      
+    })
+}
+
+
 const addEmployee = () => {
   db.promise().query('SELECT * FROM role')
     .then(([rows]) => {
@@ -61,6 +70,7 @@ const addEmployee = () => {
         })
     })
 }
+
 
 
 // const addItem = () => {
