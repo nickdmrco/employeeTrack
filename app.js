@@ -133,3 +133,68 @@ const deleteRole = () => {
         .catch(err => console.log(err))
     }
   })
+
+  const deleteDepartment = () => {
+    db.query('SELECT * FROM departments', (err, departments) => {
+      if (err) {
+        console.log(err)
+        mainMenu()
+      } else {
+        console.table(departments.sort((a, b) => { return a.id - b.id }))
+        inquirer.prompt([
+          {
+            type: 'list',
+            name: 'choice',
+            message: 'Select a department you want to delete:',
+            choices: departments.map(department => {
+              return department.id
+            })
+              .concat(['Return to Delete Menu', 'Return to Main Menu'])
+              .sort((a, b) => { return a - b })
+          }
+        ])
+          .then(({ choice }) => {
+            switch (choice) {
+              case 'Return to Delete Menu':
+                deleteMenu()
+                break
+              case 'Return to Main Menu':
+                mainMenu()
+                break
+              default:
+                db.query(`DELETE FROM departments WHERE id = ${choice}`, err => {
+                  if (err) {
+                    console.log(err)
+                    deleteDepartment()
+                  } else {
+                    console.log('Department Deleted!')
+                    inquirer.prompt([
+                      {
+                        type: 'list',
+                        name: 'option',
+                        message: 'What would you like to do now',
+                        choices: ['Delete Another Department', 'Return to Delete Menu', 'Return to Main Menu']
+                      }
+                    ])
+                      .then(({ option }) => {
+                        switch (option) {
+                          case 'Delete Another Department':
+                            deleteDepartment()
+                            break
+                          case 'Return to Delete Menu':
+                            deleteMenu()
+                            break
+                          case 'Return to Main Menu':
+                            mainMenu()
+                            break
+                        }
+                      })
+                  }
+                })
+                break
+            }
+          })
+          .catch(err => console.log(err))
+      }
+    })
+  }
