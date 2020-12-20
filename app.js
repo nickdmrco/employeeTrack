@@ -69,3 +69,67 @@ const deleteEmployee = () => {
     }
   })
 }
+
+const deleteRole = () => {
+  db.query('SELECT * FROM roles', (err, roles) => {
+    if (err) {
+      console.log(err)
+      mainMenu()
+    } else {
+      console.table(roles.sort((a, b) => { return a.id - b.id }))
+      inquirer.prompt([
+        {
+          type: 'list',
+          name: 'choice',
+          message: 'Select a role you want to delete:',
+          choices: roles.map(role => {
+            return role.id
+          })
+            .concat(['Return to Delete Menu', 'Return to Main Menu'])
+            .sort((a, b) => { return a - b })
+        }
+      ])
+        .then(({ choice }) => {
+          switch (choice) {
+            case 'Return to Delete Menu':
+              deleteMenu()
+              break
+            case 'Return to Main Menu':
+              mainMenu()
+              break
+            default:
+              db.query(`DELETE FROM roles WHERE id = ${choice}`, err => {
+                if (err) {
+                  console.log(err)
+                  deleteRole()
+                } else {
+                  console.log('Role Deleted!')
+                  inquirer.prompt([
+                    {
+                      type: 'list',
+                      name: 'option',
+                      message: 'What would you like to do now',
+                      choices: ['Delete Another Role', 'Return to Delete Menu', 'Return to Main Menu']
+                    }
+                  ])
+                    .then(({ option }) => {
+                      switch (option) {
+                        case 'Delete Another Role':
+                          deleteRole()
+                          break
+                        case 'Return to Delete Menu':
+                          deleteMenu()
+                          break
+                        case 'Return to Main Menu':
+                          mainMenu()
+                          break
+                      }
+                    })
+                }
+              })
+              break
+          }
+        })
+        .catch(err => console.log(err))
+    }
+  })
